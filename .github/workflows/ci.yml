@@ -1,0 +1,24 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Build, test, coverage gate
+        run: mvn -B verify
+      - name: Deliverables check (docs, pattern register, ADRs)
+        run: bash scripts/check-deliverables.sh
+        continue-on-error: true  # M1–M4: тізілім мен ADR-лер әлі толтырылып жатыр; M5-те алынады
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco
