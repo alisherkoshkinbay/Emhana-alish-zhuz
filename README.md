@@ -2,7 +2,7 @@
 
 > Capstone project — Application Design Based on Patterns (Design Patterns), 4th year, Information Systems.
 
-**Team:** Alisher Koshkinbay (`@alisherkoshkinbay`), Zhuldyzkhan Takhanov (`@takhanovjulduzhan05-cell`)
+**Team:** Alisher Koshkinbay (`@alisherkoshkinbay`), Zhuldyzkhan Takhanov (`@juldyzkhan`)
 **Domain:** Емхана пациенттері дәрігердің бос уақытына жазылады, қажет болса бас тартады және еске салғыш алады, ал тіркеуші келген пациентке талон беріп, дәрігер оны кезектен шақырады.
 
 ## Quick start
