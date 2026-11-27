@@ -22,6 +22,5 @@ class ArchitectureTest {
     @ArchTest
     static final ArchRule ui_does_not_know_infra =
         noClasses().that().resideInAPackage("..ui..")
-          .should().dependOnClassesThat().resideInAPackage("..infra..")
-            .allowEmptyShould(true); // M1: ui пакетінде әзірге класс жоқ
+            .should().dependOnClassesThat().resideInAPackage("..infra..");
 }
