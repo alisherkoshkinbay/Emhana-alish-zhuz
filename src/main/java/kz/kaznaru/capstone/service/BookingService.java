@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
 import kz.kaznaru.capstone.domain.Appointment;
 import kz.kaznaru.capstone.domain.AppointmentRepository;
 import kz.kaznaru.capstone.domain.AppointmentStatus;
@@ -132,6 +133,9 @@ public class BookingService {
     /** Жазылуды толығымен жояды (жазылу командасының undo-сы). */
     public void removeBooking(long appointmentId) {
         Appointment appointment = get(appointmentId);
+                if (appointment.status() != AppointmentStatus.BOOKED) {
+            throw new ClinicException("Жазылуды кері қайтаруға болмайды: пациент келіп қойған");
+        }
         releaseSlot(appointment);
         appointments.delete(appointmentId);
         publish(EventType.CANCELLED, appointment);

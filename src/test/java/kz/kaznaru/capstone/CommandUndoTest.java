@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import kz.kaznaru.capstone.domain.Appointment;
 import kz.kaznaru.capstone.domain.ClinicException;
@@ -12,7 +13,6 @@ import kz.kaznaru.capstone.service.BookingRequest;
 import kz.kaznaru.capstone.service.command.BookAppointmentCommand;
 import kz.kaznaru.capstone.service.command.CancelAppointmentCommand;
 import kz.kaznaru.capstone.service.command.CommandHistory;
-import org.junit.jupiter.api.Test;
 
 /** 5.2-талап: Command арқылы бас тарту және күйдің ДӘЛ қалпына келуі. */
 class CommandUndoTest {
@@ -68,5 +68,14 @@ class CommandUndoTest {
         assertThrows(IllegalStateException.class, () -> new CancelAppointmentCommand(f.booking, 1).undo());
         assertThrows(IllegalStateException.class,
             () -> new BookAppointmentCommand(f.booking, new BookingRequest(1, 1, "")).undo());
+    }
+    
+    @Test
+    void bookingCannotBeUndoneAfterPatientArrived() {
+        Appointment a = history.run(new BookAppointmentCommand(f.booking,
+            new BookingRequest(1, f.freeSlot(1, 0).id(), ""))).result();
+        f.queue.checkIn(a.id());
+        assertThrows(ClinicException.class, history::undoLast);
+        assertTrue(f.booking.find(a.id()).isPresent(), "жазылу өшірілмеуі керек");
     }
 }
