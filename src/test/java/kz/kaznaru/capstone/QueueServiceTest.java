@@ -3,10 +3,10 @@ package kz.kaznaru.capstone;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import kz.kaznaru.capstone.domain.Appointment;
 import kz.kaznaru.capstone.domain.ClinicException;
-import org.junit.jupiter.api.Test;
 
 class QueueServiceTest {
     private final Fixture f = new Fixture();
@@ -30,7 +30,7 @@ class QueueServiceTest {
         f.queue.checkIn(b.id());
         f.queue.callNext(1);
         assertThrows(ClinicException.class, () -> f.queue.callNext(1));
-        f.queue.markNoShow(a.id());
+        f.queue.complete(a.id());
         assertEquals(b.id(), f.queue.callNext(1).orElseThrow().id());
     }
 

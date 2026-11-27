@@ -57,7 +57,7 @@ public final class Appointment {
     }
 
     public void markNoShow() {
-        if (status != AppointmentStatus.BOOKED && status != AppointmentStatus.IN_PROGRESS) {
+        if (status != AppointmentStatus.BOOKED && status != AppointmentStatus.WAITING) {
             throw new IllegalStateException("cannot mark no-show in status " + status);
         }
         status = AppointmentStatus.NO_SHOW;
