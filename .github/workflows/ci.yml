@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -17,7 +19,7 @@ jobs:
         run: mvn -B verify
       - name: Deliverables check (docs, pattern register, ADRs)
         run: bash scripts/check-deliverables.sh
-        continue-on-error: true  # M1–M4: тізілім мен ADR-лер әлі толтырылып жатыр; M5-те алынады
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
       - uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
