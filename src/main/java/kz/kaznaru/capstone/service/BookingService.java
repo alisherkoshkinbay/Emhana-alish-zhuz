@@ -153,6 +153,6 @@ public class BookingService {
     private void publish(EventType type, Appointment a) {
         String room = doctors.findById(a.doctorId()).map(Doctor::room).orElse("?");
         events.publish(new ClinicEvent(type, a.id(), a.patientId(), a.doctorId(), a.ticket(), room,
-            a.start(), a.status().name()));
+            a.start(), a.status()));
     }
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import kz.kaznaru.capstone.domain.AppointmentStatus;
 import kz.kaznaru.capstone.service.event.ClinicEvent;
 import kz.kaznaru.capstone.service.event.ClinicEventListener;
 
@@ -28,7 +30,7 @@ public class QueueBoard implements ClinicEventListener {
                 waiting.remove(e.appointmentId());
             }
             case RESTORED -> {
-                if ("WAITING".equals(e.state()) && e.ticket() != null) {
+                if (e.state() == AppointmentStatus.WAITING && e.ticket() != null) {
                     waiting.put(e.appointmentId(), e.ticket() + " (" + e.room() + "-каб.)");
                 }
             }

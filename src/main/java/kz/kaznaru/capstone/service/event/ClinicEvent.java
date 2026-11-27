@@ -1,6 +1,7 @@
 package kz.kaznaru.capstone.service.event;
-
 import java.time.LocalDateTime;
+
+import kz.kaznaru.capstone.domain.AppointmentStatus;
 
 /**
  * Жазылуда болған оқиға. Тыңдаушылар доменді қайта сұрамай-ақ жұмыс істей алуы үшін
@@ -14,5 +15,5 @@ public record ClinicEvent(
     String ticket,
     String room,
     LocalDateTime slotStart,
-    String state) {
+    AppointmentStatus state) {
 }

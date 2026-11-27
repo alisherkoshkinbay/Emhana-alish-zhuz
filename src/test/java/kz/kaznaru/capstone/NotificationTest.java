@@ -1,9 +1,5 @@
 package kz.kaznaru.capstone;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +8,14 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
 import kz.kaznaru.capstone.domain.Appointment;
+import kz.kaznaru.capstone.domain.AppointmentStatus;
 import kz.kaznaru.capstone.domain.Patient;
 import kz.kaznaru.capstone.domain.TimeSlot;
 import kz.kaznaru.capstone.infra.DemoData;
@@ -28,7 +31,6 @@ import kz.kaznaru.capstone.service.event.ClinicEvent;
 import kz.kaznaru.capstone.service.event.EventType;
 import kz.kaznaru.capstone.service.notify.PatientNotifier;
 import kz.kaznaru.capstone.service.notify.ReminderChannelFactory;
-import org.junit.jupiter.api.Test;
 
 /** Factory арнаны таңдайды, хабарлама пациенттің арнасымен жеткізіледі. */
 class NotificationTest {
@@ -83,11 +85,11 @@ class NotificationTest {
     void notifierSendsBookingCancelRestoreAndCallMessages() {
         PatientNotifier notifier = new PatientNotifier(patients, doctors, channels);
         LocalDateTime nine = NOW.plusHours(1);
-        notifier.onEvent(new ClinicEvent(EventType.BOOKED, 1, 2, 1, null, "101", nine, "BOOKED"));
-        notifier.onEvent(new ClinicEvent(EventType.CANCELLED, 1, 2, 1, null, "101", nine, "CANCELLED"));
-        notifier.onEvent(new ClinicEvent(EventType.RESTORED, 1, 2, 1, null, "101", nine, "BOOKED"));
-        notifier.onEvent(new ClinicEvent(EventType.CALLED, 1, 2, 1, "A-001", "101", nine, "IN_PROGRESS"));
-        notifier.onEvent(new ClinicEvent(EventType.COMPLETED, 1, 2, 1, "A-001", "101", nine, "COMPLETED"));
+        notifier.onEvent(new ClinicEvent(EventType.BOOKED, 1, 2, 1, null, "101", nine, AppointmentStatus.BOOKED));
+        notifier.onEvent(new ClinicEvent(EventType.CANCELLED, 1, 2, 1, null, "101", nine, AppointmentStatus.CANCELLED));
+        notifier.onEvent(new ClinicEvent(EventType.RESTORED, 1, 2, 1, null, "101", nine, AppointmentStatus.BOOKED));
+        notifier.onEvent(new ClinicEvent(EventType.CALLED, 1, 2, 1, "A-001", "101", nine, AppointmentStatus.IN_PROGRESS));
+        notifier.onEvent(new ClinicEvent(EventType.COMPLETED, 1, 2, 1, "A-001", "101", nine, AppointmentStatus.COMPLETED));
         String text = emailText();
         assertTrue(text.contains("жазылдыңыз"), text);
         assertTrue(text.contains("жойылды"));

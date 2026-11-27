@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
 import kz.kaznaru.capstone.domain.Appointment;
 import kz.kaznaru.capstone.domain.AppointmentRepository;
 import kz.kaznaru.capstone.domain.AppointmentStatus;
@@ -82,6 +83,6 @@ public class QueueService {
     private void publish(EventType type, Appointment a) {
         String room = doctors.findById(a.doctorId()).map(Doctor::room).orElse("?");
         events.publish(new ClinicEvent(type, a.id(), a.patientId(), a.doctorId(), a.ticket(), room,
-            a.start(), a.status().name()));
+            a.start(), a.status()));
     }
 }
