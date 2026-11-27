@@ -3,6 +3,7 @@ package kz.kaznaru.capstone.ui;
 import java.io.PrintStream;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
 import kz.kaznaru.capstone.domain.Appointment;
 import kz.kaznaru.capstone.domain.ClinicException;
 import kz.kaznaru.capstone.domain.Doctor;
@@ -63,7 +64,7 @@ public class ConsoleUi {
         out.println();
         out.println("1) Дәрігерлер  2) Бос слоттар  3) Жазылу  4) Бас тарту  5) Undo");
         out.println("6) Check-in  7) Келесі пациент  8) Аяқтау  9) Кезек экраны");
-        out.println("10) Еске салғыштар  11) Дәрігер кестесі  0) Шығу");
+        out.println("10) Еске салғыштар  11) Дәрігер кестесі  12) Келмеді  0) Шығу");
     }
 
     private void handle(String choice) {
@@ -93,6 +94,10 @@ public class ConsoleUi {
             case "10" -> out.println("Жіберілген еске салғыштар: " + reminders.sendDueReminders());
             case "11" -> out.print(schedule.doctorSchedule(readLong("Дәрігер id: "),
                 readLine("Формат " + schedule.formats() + ": ")));
+            case "12" -> {
+                queue.markNoShow(readLong("Жазылу id: "));
+                out.println("«Келмеді» деп белгіленді.");
+            }
             default -> out.println("Белгісіз пункт.");
         }
     }

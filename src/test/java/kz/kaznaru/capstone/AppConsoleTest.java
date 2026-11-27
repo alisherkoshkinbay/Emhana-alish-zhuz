@@ -1,11 +1,11 @@
 package kz.kaznaru.capstone;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /** Консоль UI басынан аяғына: App composition root + сценарий енгізу. */
@@ -27,6 +27,7 @@ class AppConsoleTest {
             "4", "2", "5", "5", "5", "5",
             "3", "1", "1", "", "6", "3", "6", "3", "9", "7", "1", "9", "8", "3",
             "10", "11", "1", "text", "11", "1", "csv",
+            "3", "2", "2", "", "12", "4", "12", "3",
             "x", "6", "abc", "0", ""));
         assertTrue(out.contains("Др. Гүлнар Сейітова"), out);
         assertTrue(out.contains("Жазылу #1 құрылды."));
@@ -39,6 +40,7 @@ class AppConsoleTest {
         assertTrue(out.contains("A-001  →  101-кабинет"));
         assertTrue(out.contains("Қабылдау аяқталды."));
         assertTrue(out.contains("! cannot check in"), "second check-in is rejected");
+        assertTrue(out.contains("«Келмеді» деп белгіленді."), "no-show from the menu");
         assertTrue(out.contains("Белгісіз пункт."));
         assertTrue(out.contains("! Сан енгізіңіз"));
         assertTrue(out.contains("Сау болыңыз!"));
