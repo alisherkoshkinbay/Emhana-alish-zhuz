@@ -133,7 +133,7 @@ public class BookingService {
     /** Жазылуды толығымен жояды (жазылу командасының undo-сы). */
     public void removeBooking(long appointmentId) {
         Appointment appointment = get(appointmentId);
-                if (appointment.status() != AppointmentStatus.BOOKED) {
+        if (appointment.status() != AppointmentStatus.BOOKED) {
             throw new ClinicException("Жазылуды кері қайтаруға болмайды: пациент келіп қойған");
         }
         releaseSlot(appointment);
